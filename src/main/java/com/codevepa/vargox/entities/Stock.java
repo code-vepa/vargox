@@ -32,6 +32,13 @@ public class Stock {
         this.sector = sector;
     }
 
+    /*
+        for testing purposes: setId
+    */
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public Long getId() {
         return id;
     }

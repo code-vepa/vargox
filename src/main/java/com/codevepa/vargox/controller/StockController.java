@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codevepa.vargox.entities.Stock;
 import com.codevepa.vargox.service.StockService;
+import org.springframework.web.bind.annotation.PutMapping;
 
 
 
@@ -43,6 +44,12 @@ public class StockController {
         return new ResponseEntity<>(newStock, HttpStatus.CREATED);
     }
     
+    @PutMapping("/{id}")
+    public ResponseEntity<Stock> updateStock(@PathVariable Long id, @RequestBody Stock stock) {
+        Stock updatedStock = stockService.updateStock(id, stock);
+        return new ResponseEntity<>(updatedStock, HttpStatus.OK);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteStock(@PathVariable Long id) {
         stockService.deleteById(id);

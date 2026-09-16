@@ -37,10 +37,24 @@ public class StockService {
     public Stock findById(Long id) {
         return stockRepo.findById(id)
                 .orElseThrow(
-                    () -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                        "Stock not found with id: " + id)
-                );
+                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                                "Stock not found with id: " + id));
     }
+    
+
+    public Stock updateStock(Long id, Stock updatedStock) {
+        Stock existingStock = stockRepo.findById(id)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                "Stock not found with id: " + id));
+
+        existingStock.setSymbol(updatedStock.getSymbol());
+        existingStock.setCompanyName(updatedStock.getCompanyName());
+        existingStock.setExchange(updatedStock.getExchange());
+        existingStock.setSector(updatedStock.getSector());
+
+        return stockRepo.save(existingStock);
+    }
+
 
     public void deleteById(Long id) {
         if (!stockRepo.existsById(id)) {

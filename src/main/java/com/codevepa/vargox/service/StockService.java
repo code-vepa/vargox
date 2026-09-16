@@ -1,6 +1,7 @@
 package com.codevepa.vargox.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -55,6 +56,24 @@ public class StockService {
         return stockRepo.save(existingStock);
     }
 
+
+    public Stock patchStock(Long id, Map<String, Object> updates) {
+        Stock existingStock = stockRepo.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                     "Stock not found with id: " + id));
+
+        updates.forEach((key, value) -> {
+            switch (key) {
+                case "symbol" -> existingStock.setSymbol((String) value);
+                case "companyName" -> existingStock.setCompanyName((String) value);
+                case "exchange" -> existingStock.setExchange((String) value);
+                case "sector" -> existingStock.setSector((String) value);
+                default -> throw new IllegalArgumentException("Unknown field: " + key);
+            }
+        });
+
+        return stockRepo.save(existingStock);
+    }
 
     public void deleteById(Long id) {
         if (!stockRepo.existsById(id)) {

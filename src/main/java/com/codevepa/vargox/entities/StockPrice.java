@@ -21,10 +21,10 @@ public class StockPrice {
     @Column(nullable = false)
     private double previousPrice;
 
-    @Column(nullable = false)
+    @Column(name = "current_ts", nullable = false)
     private LocalDateTime currentTimestamp;
 
-    @Column(nullable = false)
+    @Column(name = "previous_ts", nullable = false)
     private LocalDateTime previousTimestamp;
 
     private long volume;

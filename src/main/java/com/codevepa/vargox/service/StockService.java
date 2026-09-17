@@ -4,20 +4,23 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.codevepa.vargox.entities.Stock;
+import com.codevepa.vargox.entities.StockPrice;
+import com.codevepa.vargox.model.StockDetailResponse;
 import com.codevepa.vargox.repository.StockRepo;
 
 
 @Service
 public class StockService {
     private final StockRepo stockRepo;
+    private final StockPriceService stockPriceService;
 
-    public StockService(StockRepo stockRepo) {
+    public StockService(StockRepo stockRepo, StockPriceService stockPriceService) {
         this.stockRepo = stockRepo;
+        this.stockPriceService = stockPriceService;
     }
 
     public Stock createStock(Stock stock) {
@@ -35,14 +38,22 @@ public class StockService {
         return stockRepo.findAll();
     }
 
-    public Stock findById(Long id) {
-        return stockRepo.findById(id)
-                .orElseThrow(
-                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                                "Stock not found with id: " + id));
+    public StockDetailResponse findById(Long id) {
+        Stock stock = stockRepo.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    "Stock not found with id: " + id));
+
+        StockPrice price = null;
+
+        try{
+            price = stockPriceService.findByStockId(id);
+        }
+        catch (ResponseStatusException e) {
+        }
+        
+        return new StockDetailResponse(stock, price);
     }
     
-
     public Stock updateStock(Long id, Stock updatedStock) {
         Stock existingStock = stockRepo.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
@@ -78,8 +89,14 @@ public class StockService {
     public void deleteById(Long id) {
         if (!stockRepo.existsById(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                "Stock not found with id: " + id);
+                    "Stock not found with id: " + id);
         }
         stockRepo.deleteById(id);
+    }
+    
+    public Stock getStockEntityById(Long id){
+        return stockRepo.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    "Stock not found with id: " + id));
     }
 }

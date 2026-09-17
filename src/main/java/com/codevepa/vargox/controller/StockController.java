@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codevepa.vargox.entities.Stock;
+import com.codevepa.vargox.model.StockDetailResponse;
 import com.codevepa.vargox.service.StockService;
 import org.springframework.web.bind.annotation.PutMapping;
 
@@ -34,7 +35,7 @@ public class StockController {
     }
 
     @GetMapping("/{id}")
-    public Stock getStockById(@PathVariable Long id){
+    public StockDetailResponse getStockById(@PathVariable Long id) {
         return stockService.findById(id);
     }
     

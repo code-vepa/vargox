@@ -1,0 +1,12 @@
+{"properties": [
+  {
+    "name": "finnhub.api.key",
+    "type": "java.lang.String",
+    "description": "A description for 'finnhub.api.key'"
+  },
+  {
+    "name": "finnhub.api.url",
+    "type": "java.lang.String",
+    "description": "A description for 'finnhub.api.url'"
+  }
+]}

@@ -3,7 +3,10 @@ package com.codevepa.vargox.service;
 import com.codevepa.vargox.entities.User;
 import com.codevepa.vargox.enums.Role;
 import com.codevepa.vargox.model.LoginRequest;
+import com.codevepa.vargox.model.LoginResponse;
 import com.codevepa.vargox.repository.UserRepo;
+import com.codevepa.vargox.security.JwtService;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;
@@ -14,10 +17,14 @@ public class UserService {
 
     private final UserRepo userRepo;
     private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
-    public UserService(UserRepo userRepo, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepo userRepo, PasswordEncoder passwordEncoder,
+        JwtService jwtService
+    ) {
         this.userRepo = userRepo;
         this.passwordEncoder = passwordEncoder;
+        this.jwtService = jwtService;
     }
 
     public User registerUser(User user) {
@@ -36,7 +43,7 @@ public class UserService {
         return userRepo.save(user);
     }
 
-    public User login(LoginRequest loginRequest) {
+    public LoginResponse login(LoginRequest loginRequest) {
         User user = userRepo.findByUsername(loginRequest.getUsername())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid username or password"));
 
@@ -44,6 +51,7 @@ public class UserService {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid username or password");
         }
 
-        return user;
+        String token = jwtService.generateToken(user.getUsername(), user.getRole().name());
+        return new LoginResponse(user.getUsername(), user.getRole().name(), token);
     }
 }

@@ -5,7 +5,6 @@ import com.codevepa.vargox.entities.Stock;
 import com.codevepa.vargox.entities.StockPrice;
 import com.codevepa.vargox.repository.StockPriceRepo;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -19,7 +18,7 @@ public class StockPriceService {
 
     private final StockPriceRepo stockPriceRepo;
 
-    @Autowired 
+
     public StockPriceService(StockPriceRepo stockPriceRepo) {
         this.stockPriceRepo = stockPriceRepo;
     }

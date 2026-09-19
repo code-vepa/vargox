@@ -28,5 +28,15 @@
     "name": "jwt.expiration",
     "type": "java.lang.String",
     "description": "A description for 'jwt.expiration'"
+  },
+  {
+    "name": "gemini.api.url",
+    "type": "java.lang.String",
+    "description": "A description for 'gemini.api.url'"
+  },
+  {
+    "name": "gemini.api.key",
+    "type": "java.lang.String",
+    "description": "A description for 'gemini.api.key'"
   }
 ]}

@@ -8,4 +8,5 @@ import java.util.List;
 public interface MarketEventRepo extends JpaRepository<MarketEvent, Long> {
 
     List<MarketEvent> findByStockId(Long stockId);
+    List<MarketEvent> findTop3ByStockIdOrderByDetectedAtDesc(Long stockId);
 }

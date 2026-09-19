@@ -40,7 +40,12 @@ public class MarketEventService {
 
     public MarketEvent findById(Long id) {
         return marketEventRepo.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Market event not found with id: " + id));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "Market event not found with id: " + id));
+    }
+    
+    public List<MarketEvent> findRecentByStockId(Long stockId) {
+        return marketEventRepo.findTop3ByStockIdOrderByDetectedAtDesc(stockId);
     }
 
     public void deleteById(Long id) {

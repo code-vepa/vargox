@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codevepa.vargox.entities.Stock;
 import com.codevepa.vargox.model.StockDetailResponse;
+import com.codevepa.vargox.service.AiSummaryService;
 import com.codevepa.vargox.service.StockService;
 import org.springframework.web.bind.annotation.PutMapping;
 
@@ -24,9 +25,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RequestMapping("/api/stocks")
 public class StockController {
     private final StockService stockService;
+    private final AiSummaryService aiSummaryService;
 
-    public StockController(StockService stockService) {
+    public StockController(StockService stockService, AiSummaryService aiSummaryService) {
         this.stockService = stockService;
+        this.aiSummaryService = aiSummaryService;
     }
 
     @GetMapping
@@ -61,5 +64,11 @@ public class StockController {
     public ResponseEntity<Void> deleteStock(@PathVariable Long id) {
         stockService.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+    
+    @GetMapping("/{id}/summary")
+    public ResponseEntity<Map<String, String>> getAiSummary(@PathVariable Long id) {
+        String summary = aiSummaryService.generateSummary(id);
+        return ResponseEntity.ok(Map.of("summary", summary));
     }
 }

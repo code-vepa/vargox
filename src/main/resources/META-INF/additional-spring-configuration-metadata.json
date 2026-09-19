@@ -8,5 +8,15 @@
     "name": "finnhub.api.url",
     "type": "java.lang.String",
     "description": "A description for 'finnhub.api.url'"
+  },
+  {
+    "name": "app.admin.username",
+    "type": "java.lang.String",
+    "description": "A description for 'app.admin.username'"
+  },
+  {
+    "name": "app.admin.password",
+    "type": "java.lang.String",
+    "description": "A description for 'app.admin.password'"
   }
 ]}

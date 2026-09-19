@@ -9,24 +9,24 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class AdminSeeder {
 
     private static final Logger logger = LoggerFactory.getLogger(AdminSeeder.class);
 
-    @Value("${app.admin.username}")
+    @Value("${app.admin.username:admin}")
     private String adminUsername;
 
-    @Value("${app.admin.password}")
+    @Value("${app.admin.password:changeme123}")
     private String adminPassword;
 
     @Bean
-    public CommandLineRunner seedAdmin(UserRepo userRepo) {
+    public CommandLineRunner seedAdmin(UserRepo userRepo, PasswordEncoder passwordEncoder) {
         return args -> {
             if (userRepo.findByRole(Role.ADMIN).isEmpty()) {
-                //FLAGGING THIS FOR BCRYPT
-                User admin = new User(adminUsername, adminPassword, Role.ADMIN);
+                User admin = new User(adminUsername, passwordEncoder.encode(adminPassword), Role.ADMIN);
                 userRepo.save(admin);
                 logger.info("Seeded initial admin user: {}", adminUsername);
             } else {

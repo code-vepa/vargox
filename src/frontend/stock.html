@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Stock Detail — Vargox</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="header-top">
+            <a href="index.html" class="back-link">&larr; Back to all stocks</a>
+            <div id="auth-container"></div>
+        </div>
+    </header>
+
+    <main>
+        <div id="loading">Loading stock...</div>
+        <div id="error" class="error" style="display: none;"></div>
+
+        <div id="stock-detail" class="detail-card" style="display: none;">
+            <div class="detail-header">
+                <h1 id="detail-symbol"></h1>
+                <span id="detail-sector" class="stock-sector"></span>
+            </div>
+            <p id="detail-company" class="detail-company"></p>
+            <p id="detail-exchange" class="detail-exchange"></p>
+
+            <div class="price-block">
+                <div>
+                    <span class="price-label">Current</span>
+                    <span id="detail-current-price" class="price-value">--</span>
+                </div>
+                <div>
+                    <span class="price-label">Previous</span>
+                    <span id="detail-previous-price" class="price-value">--</span>
+                </div>
+                <div>
+                    <span class="price-label">Volume</span>
+                    <span id="detail-volume" class="price-value">--</span>
+                </div>
+            </div>
+
+            <button id="summary-btn">Get AI Summary</button>
+            <div id="summary-loading" style="display: none;">Generating summary...</div>
+            <div id="summary-error" class="error" style="display: none;"></div>
+            <p id="summary-text" class="summary-text"></p>
+        </div>
+    </main>
+
+    <script src="auth-ui.js"></script>
+    <script src="stock.js"></script>
+    <script src="stock.js"></script>
+</body>
+</html>

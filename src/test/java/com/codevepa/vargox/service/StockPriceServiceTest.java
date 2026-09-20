@@ -278,13 +278,12 @@ public class StockPriceServiceTest {
         LocalDateTime oldCurrentTimestamp = samplePrice.getCurrentTimestamp();
 
         when(stockPriceRepo.findByStockId(1L)).thenReturn(Optional.of(samplePrice));
-        ArgumentCaptor<StockPrice> captor = ArgumentCaptor.forClass(StockPrice.class);
-        when(stockPriceRepo.save(captor.capture())).thenAnswer(invocation -> invocation.getArgument(0));
+        when(stockPriceRepo.save(any(StockPrice.class)))
+            .thenAnswer(invocation -> invocation.getArgument(0));
 
-        stockPriceService.syncFromFinnhub(sampleStock, quote);
+        StockPrice result = stockPriceService.syncFromFinnhub(sampleStock, quote);
 
-        StockPrice saved = captor.getValue();
-        assertThat(saved.getPreviousTimestamp()).isEqualTo(oldCurrentTimestamp);
-        assertThat(saved.getCurrentTimestamp()).isAfter(oldCurrentTimestamp);
+        assertThat(result.getPreviousTimestamp()).isEqualTo(oldCurrentTimestamp);
+        assertThat(result.getCurrentTimestamp()).isAfter(oldCurrentTimestamp);
     }
 }

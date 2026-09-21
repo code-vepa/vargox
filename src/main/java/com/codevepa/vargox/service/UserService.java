@@ -44,6 +44,13 @@ public class UserService {
     }
 
     public LoginResponse login(LoginRequest loginRequest) {
+        if (loginRequest.getUsername() == null || loginRequest.getUsername().isBlank()) {
+            throw new IllegalArgumentException("Username is required");
+        }
+        if (loginRequest.getPassword() == null || loginRequest.getPassword().isBlank()) {
+            throw new IllegalArgumentException("Password is required");
+        }
+
         User user = userRepo.findByUsername(loginRequest.getUsername())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid username or password"));
 

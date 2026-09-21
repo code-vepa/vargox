@@ -52,6 +52,11 @@ public class StockPrice {
         return id;
     }
 
+    // for testing purposes only
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public Stock getStock() {
         return stock;
     }

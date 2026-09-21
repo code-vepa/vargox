@@ -100,11 +100,10 @@ public class StockPriceService {
                     quote.getPreviousClose(),
                     now,
                     now,
-                    0L 
-            );
+                    0L);
             return stockPriceRepo.save(newPrice);
         } else {
-            
+
             existing.setPreviousPrice(existing.getCurrentPrice());
             existing.setPreviousTimestamp(existing.getCurrentTimestamp());
             existing.setCurrentPrice(quote.getCurrentPrice());
@@ -112,4 +111,5 @@ public class StockPriceService {
             return stockPriceRepo.save(existing);
         }
     }
+    
 }

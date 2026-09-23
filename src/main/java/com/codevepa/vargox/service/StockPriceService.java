@@ -95,21 +95,18 @@ public class StockPriceService {
 
         if (existing == null) {
             StockPrice newPrice = new StockPrice(
-                    stock,
-                    quote.getCurrentPrice(),
-                    quote.getPreviousClose(),
-                    now,
-                    now,
-                    0L);
+                    stock, quote.getCurrentPrice(), quote.getPreviousClose(), now, now, 0L);
             return stockPriceRepo.save(newPrice);
-        } else {
-
+        }
+        
+        if (quote.getCurrentPrice() != existing.getCurrentPrice()) {
             existing.setPreviousPrice(existing.getCurrentPrice());
             existing.setPreviousTimestamp(existing.getCurrentTimestamp());
             existing.setCurrentPrice(quote.getCurrentPrice());
             existing.setCurrentTimestamp(now);
-            return stockPriceRepo.save(existing);
         }
+
+        return stockPriceRepo.save(existing);
     }
     
 }

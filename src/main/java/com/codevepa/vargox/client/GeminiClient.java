@@ -8,7 +8,7 @@ import org.springframework.web.client.RestClient;
 @Component
 public class GeminiClient {
 
-    private final RestClient restClient;
+    private RestClient restClient;
 
     @Value("${gemini.api.key}")
     private String apiKey;
@@ -17,12 +17,19 @@ public class GeminiClient {
     private String apiUrl;
 
     public GeminiClient() {
+        var requestFactory = new org.springframework.http.client.SimpleClientHttpRequestFactory();
+            requestFactory.setConnectTimeout(10000);
+            requestFactory.setReadTimeout(30000);
+
         this.restClient = RestClient.create();
+        this.restClient = RestClient.builder()
+                    .requestFactory(requestFactory)
+                    .build();
     }
 
     public GeminiResponse generateContent(String prompt) {
         GeminiRequest request = new GeminiRequest(prompt);
-
+    
         return restClient.post()
                 .uri(apiUrl)
                 .header("x-goog-api-key", apiKey)
